@@ -69,17 +69,26 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <LibraryPath>$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(SolutionDir)Dependencies\Lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)Dependencies\Include;$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <IncludePath>$(SolutionDir)Dependencies\Include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)Dependencies\Lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>d3d11.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>d3d11.lib;d3dcompiler.lib;DirectXTex.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <FxCompile>
+      <ShaderModel>5.0</ShaderModel>
+    </FxCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -95,11 +104,17 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>$(ProjectDir)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>d3d11.lib;d3dcompiler.lib;DirectXTex.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <SubSystem>NotSet</SubSystem>
     </Link>
+    <FxCompile>
+      <ShaderModel>5.0</ShaderModel>
+    </FxCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -115,15 +130,52 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="math\float2.cpp" />
+    <ClCompile Include="math\float4.cpp" />
     <ClCompile Include="Game.cpp" />
-    <ClCompile Include="RenderingAPI.cpp" />
+    <ClCompile Include="graphic\IndexBuffer.cpp" />
+    <ClCompile Include="graphic\Renderer2D.cpp" />
+    <ClCompile Include="core\RenderingAPI.cpp" />
+    <ClCompile Include="graphic\Shader.cpp" />
     <ClCompile Include="Source.cpp" />
-    <ClCompile Include="Window.cpp" />
+    <ClCompile Include="math\float3.cpp" />
+    <ClCompile Include="graphic\Sprite.cpp" />
+    <ClCompile Include="graphic\VertexBuffer.cpp" />
+    <ClCompile Include="core\Window.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="math\float2.h" />
+    <ClInclude Include="math\float4.h" />
     <ClInclude Include="Game.h" />
-    <ClInclude Include="RenderingAPI.h" />
-    <ClInclude Include="Window.h" />
+    <ClInclude Include="graphic\IndexBuffer.h" />
+    <ClInclude Include="graphic\graphic.h" />
+    <ClInclude Include="math\math.h" />
+    <ClInclude Include="graphic\Renderer2D.h" />
+    <ClInclude Include="core\RenderingAPI.h" />
+    <ClInclude Include="graphic\Shader.h" />
+    <ClInclude Include="math\float3.h" />
+    <ClInclude Include="graphic\Sprite.h" />
+    <ClInclude Include="graphic\VertexBuffer.h" />
+    <ClInclude Include="core\core.h" />
+    <ClInclude Include="core\Window.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="shader\defaultPixelShader.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+    </FxCompile>
+    <FxCompile Include="shader\defaultVertexShader.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+    </FxCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="defaultPixelShader.cso" />
+    <None Include="defaultVertexShader.cso" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
