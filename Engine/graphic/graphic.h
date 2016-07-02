@@ -4,3 +4,4 @@
 #include "Shader.h"
 #include "Sprite.h"
 #include "VertexBuffer.h"
+#include "Texture.h"

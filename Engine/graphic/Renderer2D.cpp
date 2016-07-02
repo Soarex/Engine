@@ -45,24 +45,66 @@ namespace graphic
 	{
 		float3& position = s.position;
 		float2& size = s.size;
+		int slot;
+
+		if (s.texture != nullptr)
+			slot = SubmitTexture(s.texture);
+		else
+			slot = -1;
 
 		m_BufferPointer->position = float3(position.x, (position.y + size.y), position.z);
 		m_BufferPointer->color = s.color;
+		m_BufferPointer->uv = float2(0.0f, 1.0f);
+		m_BufferPointer->textureSlot = slot;
 		m_BufferPointer++;
 
 		m_BufferPointer->position = float3((position.x + size.x), (position.y + size.y), position.z);
 		m_BufferPointer->color = s.color;
+		m_BufferPointer->uv = float2(1.0f, 1.0f);
+		m_BufferPointer->textureSlot = slot;
 		m_BufferPointer++;
 
 		m_BufferPointer->position = float3(position.x + size.x, position.y, position.z);
 		m_BufferPointer->color = s.color;
+		m_BufferPointer->uv = float2(1.0f, 0.0f);
+		m_BufferPointer->textureSlot = slot;
 		m_BufferPointer++;
 
 		m_BufferPointer->position = position;
 		m_BufferPointer->color = s.color;
+		m_BufferPointer->uv = float2(0.0f, 0.0f);
+		m_BufferPointer->textureSlot = slot;
 		m_BufferPointer++;
 
 		m_IndexCount += 6;
+	}
+
+	int Renderer2D::SubmitTexture(Texture* texture)
+	{
+		int result = 0;
+		bool found = false;
+		for (int i = 0; i < m_Textures.size(); i++)
+		{
+			if (m_Textures[i] == texture)
+			{
+				result = i;
+				found = true;
+				break;
+			}
+		}
+
+		if (!found)
+		{
+			if (m_Textures.size() >= RENDERER_MAX_TEXTURES)
+			{
+				End();
+				Render();
+				Begin();
+			}
+			m_Textures.push_back(texture);
+			result = m_Textures.size() - 1;
+		}
+		return result;
 	}
 
 	void Renderer2D::End()
@@ -74,6 +116,9 @@ namespace graphic
 	{
 		m_VertexBuffer.Bind();
 		m_IndexBuffer->Bind();
+
+		for (int i = 0; i < m_Textures.size(); i++)
+			m_Textures[i]->Bind(i);
 
 		RenderingAPI::ClearRenderTargetView(float4(1.0f, 1.0f, 1.0f, 1.0f));
 		RenderingAPI::DrawIndexed(m_IndexCount);

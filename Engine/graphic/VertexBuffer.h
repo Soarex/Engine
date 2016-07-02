@@ -8,8 +8,8 @@ namespace graphic
 	class VertexBuffer
 	{
 	private:
-		ID3D11Buffer* m_VertexBuffer;
-		UINT m_Stride;
+		ID3D11Buffer*	 m_VertexBuffer;
+		UINT			 m_Stride;
 	public:
 		VertexBuffer(UINT size, D3D11_USAGE usage, UINT access, UINT stride, void* data = nullptr);
 		~VertexBuffer();

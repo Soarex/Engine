@@ -130,6 +130,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="dependecies\DDSTextureLoader\DDSTextureLoader.cpp" />
     <ClCompile Include="math\float2.cpp" />
     <ClCompile Include="math\float4.cpp" />
     <ClCompile Include="Game.cpp" />
@@ -142,8 +143,10 @@
     <ClCompile Include="graphic\Sprite.cpp" />
     <ClCompile Include="graphic\VertexBuffer.cpp" />
     <ClCompile Include="core\Window.cpp" />
+    <ClCompile Include="graphic\Texture.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="dependecies\DDSTextureLoader\DDSTextureLoader.h" />
     <ClInclude Include="math\float2.h" />
     <ClInclude Include="math\float4.h" />
     <ClInclude Include="Game.h" />
@@ -158,6 +161,7 @@
     <ClInclude Include="graphic\VertexBuffer.h" />
     <ClInclude Include="core\core.h" />
     <ClInclude Include="core\Window.h" />
+    <ClInclude Include="graphic\Texture.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="shader\defaultPixelShader.hlsl">
