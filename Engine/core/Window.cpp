@@ -1,7 +1,6 @@
 #include "Window.h"
 
-namespace core
-{
+namespace core {
 
 	LRESULT CALLBACK windowProcedure(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
@@ -18,8 +17,7 @@ namespace core
 	int  Window::m_Width, Window::m_Height;
 	bool Window::m_Closed;
 
-	void Window::Init(std::string windowName, int width, int height)
-	{
+	void Window::init(std::string windowName, int width, int height) {
 		m_WindowName = windowName;
 		m_Width = width;
 		m_Height = height;
@@ -44,8 +42,7 @@ namespace core
 		windowClass.lpszMenuName = NULL;
 		windowClass.style = CS_HREDRAW | CS_VREDRAW | CS_OWNDC;
 
-		if (!RegisterClassEx(&windowClass))
-		{
+		if (!RegisterClassEx(&windowClass)) {
 			MessageBox(m_WindowHandler, "Error during window creation", "Error", MB_OK);
 			exit(1);
 		}
@@ -65,18 +62,16 @@ namespace core
 			NULL
 		);
 
-		if (!m_WindowHandler)
-		{
+		if (!m_WindowHandler) {
 			MessageBox(m_WindowHandler, "Error during window creation", "Error", MB_OK);
 			exit(1);
 		}
 
 		ShowWindow(m_WindowHandler, 1);
-		RenderingAPI::Init(width, height);
+		RenderingAPI::init(width, height);
 	}
 
-	void Window::Update()
-	{
+	void Window::update() {
 		MSG msg;
 		ZeroMemory(&msg, sizeof(MSG));
 		PeekMessage(&msg, NULL, 0, 0, PM_REMOVE);
@@ -85,28 +80,22 @@ namespace core
 		DispatchMessage(&msg);
 	}
 
-	bool Window::Closed()
-	{
+	bool Window::closed() {
 		return m_Closed;
 	}
 
-	void Window::MessageBoxOk(std::string name, std::string content)
-	{
+	void Window::messageBoxOk(std::string name, std::string content) {
 		MessageBox(m_WindowHandler, content.c_str(), name.c_str(), MB_OK);
 	}
 
-	LRESULT CALLBACK windowProcedure(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
-	{
-		switch (msg)
-		{
-		case WM_CREATE:
-		{
+	LRESULT CALLBACK windowProcedure(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) {
+		switch (msg) {
+		case WM_CREATE: {
 
 		}
 		break;
 
-		case WM_DESTROY:
-		{
+		case WM_DESTROY: {
 			*close = true;
 			PostQuitMessage(0);
 			return 0;

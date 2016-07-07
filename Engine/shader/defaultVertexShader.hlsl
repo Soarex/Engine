@@ -1,21 +1,18 @@
-struct VSInput
-{
+struct VSInput {
 	float4 position : POSITION;
 	float4 color	: COLOR;
 	float2 uv		: TEXCOORD;
 	int  slot		: SLOT;
 };
 
-struct VSOutput
-{
+struct VSOutput {
 	float4 position	 : SV_POSITION;
 	float4 color	 : COLOR;
 	float2 uv		 : TEXCOORD;
 	int slot		 : SLOT;
 };
 
-VSOutput main(VSInput input)
-{
+VSOutput main(VSInput input) {
 	VSOutput output;
 	output.position = input.position;
 	output.color = input.color;

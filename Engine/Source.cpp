@@ -1,10 +1,9 @@
 #include "Game.h"
 #include <stdio.h>
 
-int main()
-{
+int main(){
 	Game game("Ciao");
-	game.Start();
+	game.start();
 	return 0;
 }
 

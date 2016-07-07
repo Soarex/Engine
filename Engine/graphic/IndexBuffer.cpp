@@ -2,11 +2,9 @@
 
 using namespace core;
 
-namespace graphic
-{
+namespace graphic {
 
-	IndexBuffer::IndexBuffer(UINT size, UINT* data)
-	{
+	IndexBuffer::IndexBuffer(UINT size, UINT* data) {
 		D3D11_BUFFER_DESC d;
 		d.Usage = D3D11_USAGE_IMMUTABLE;
 		d.ByteWidth = size;
@@ -18,24 +16,21 @@ namespace graphic
 		D3D11_SUBRESOURCE_DATA initData;
 		initData.pSysMem = data;
 
-		HRESULT res = RenderingAPI::GetDevice()->CreateBuffer(&d, &initData, &m_IndexBuffer);
+		HRESULT res = RenderingAPI::getDevice()->CreateBuffer(&d, &initData, &m_IndexBuffer);
 
-		if (FAILED(res))
-		{
-			Window::MessageBoxOk("Error", "Error during index buffer creation");
+		if (FAILED(res)) {
+			Window::messageBoxOk("Error", "Error during index buffer creation");
 			exit(1);
 		}
 	}
 
 
-	IndexBuffer::~IndexBuffer()
-	{
+	IndexBuffer::~IndexBuffer() {
 		m_IndexBuffer->Release();
 	}
 
-	void IndexBuffer::Bind()
-	{
-		RenderingAPI::GetContext()->IASetIndexBuffer(m_IndexBuffer, DXGI_FORMAT_R32_UINT, 0);
+	void IndexBuffer::bind() {
+		RenderingAPI::getContext()->IASetIndexBuffer(m_IndexBuffer, DXGI_FORMAT_R32_UINT, 0);
 	}
 
 }

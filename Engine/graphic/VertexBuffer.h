@@ -2,28 +2,25 @@
 #include <d3d11.h>
 #include "../core/core.h"
 
-namespace graphic
-{
+namespace graphic {
 
-	class VertexBuffer
-	{
+	class VertexBuffer {
 	private:
 		ID3D11Buffer*	 m_VertexBuffer;
 		UINT			 m_Stride;
 	public:
 		VertexBuffer(UINT size, D3D11_USAGE usage, UINT access, UINT stride, void* data = nullptr);
 		~VertexBuffer();
-		void Bind();
+		void bind();
 
 		template <class t>
-		t Map()
-		{
+		t map() {
 			D3D11_MAPPED_SUBRESOURCE sa;
-			RenderingAPI::GetContext()->Map(m_VertexBuffer, 0, D3D11_MAP_WRITE_NO_OVERWRITE, 0, &sa);
+			RenderingAPI::getContext()->Map(m_VertexBuffer, 0, D3D11_MAP_WRITE_NO_OVERWRITE, 0, &sa);
 			return (t)sa.pData;
 		}
 
-		void Unmap();
+		void unmap();
 	};
 
 }

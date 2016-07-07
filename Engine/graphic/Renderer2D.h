@@ -7,8 +7,7 @@
 #include "IndexBuffer.h"
 #include "Texture.h"
 
-namespace graphic
-{
+namespace graphic {
 
 	#define RENDERER_MAX_SPRITES	40000
 	#define RENDERER_SPRITE_SIZE	sizeof(VertexData) * 4
@@ -16,8 +15,7 @@ namespace graphic
 	#define RENDERER_INDICES_SIZE	RENDERER_MAX_SPRITES * 6
 	#define RENDERER_MAX_TEXTURES	32
 
-	struct VertexData
-	{
+	struct VertexData {
 		math::float3 position;
 		math::float4 color;
 		math::float2 uv;
@@ -25,8 +23,7 @@ namespace graphic
 	};
 
 
-	class Renderer2D
-	{
+	class Renderer2D {
 	private:	
 		VertexBuffer			m_VertexBuffer;
 		IndexBuffer*			m_IndexBuffer;
@@ -37,11 +34,11 @@ namespace graphic
 		Renderer2D();
 		~Renderer2D();
 
-		void Begin();
-		void Submit(Sprite& s);
-		int SubmitTexture(Texture* texture);
-		void End();
-		void Render();
+		void begin();
+		void submit(Sprite& s);
+		int submitTexture(Texture* texture);
+		void end();
+		void render();
 	};
 
 }

@@ -1,10 +1,8 @@
 #pragma once
 
-namespace math
-{
+namespace math {
 
-	struct float4
-	{
+	struct float4 {
 		float x, y, z, w;
 
 		float4();

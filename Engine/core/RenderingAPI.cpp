@@ -5,8 +5,7 @@ using namespace math;
 
 namespace core
 {
-	D3D_FEATURE_LEVEL featureLevels[] =
-	{
+	D3D_FEATURE_LEVEL featureLevels[] = {
 		D3D_FEATURE_LEVEL_11_0,
 		D3D_FEATURE_LEVEL_10_1,
 		D3D_FEATURE_LEVEL_10_0,
@@ -19,8 +18,29 @@ namespace core
 	IDXGISwapChain*			RenderingAPI::m_SwapChain;
 	ID3D11RenderTargetView*	RenderingAPI::m_RenderTargetView;
 
-	void RenderingAPI::Init(int width, int height)
-	{
+	void RenderingAPI::initRenderTargetView() {
+		ID3D11Texture2D* backBuffer;
+		HRESULT res = m_SwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (LPVOID*)&backBuffer);
+
+		if (FAILED(res)){
+			MessageBox(Window::getWindowHandler(), "Error during render target view creation", "Error", MB_OK);
+			exit(1);
+		}
+
+		res = m_Device->CreateRenderTargetView(backBuffer, NULL, &m_RenderTargetView);
+
+		if (FAILED(res)){
+			MessageBox(Window::getWindowHandler(), "Error during render target view creation", "Error", MB_OK);
+			exit(1);
+		}
+
+		backBuffer->Release();
+
+		m_Context->OMSetRenderTargets(1, &m_RenderTargetView, NULL);
+
+	}
+
+	void RenderingAPI::init(int width, int height) {
 		DXGI_SWAP_CHAIN_DESC sd;
 		ZeroMemory(&sd, sizeof(sd));
 		sd.BufferCount = 1;
@@ -30,7 +50,7 @@ namespace core
 		sd.BufferDesc.RefreshRate.Numerator = 60;
 		sd.BufferDesc.RefreshRate.Denominator = 1;
 		sd.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
-		sd.OutputWindow = Window::GetWindowHandler();
+		sd.OutputWindow = Window::getWindowHandler();
 		sd.SampleDesc.Count = 1;
 		sd.SampleDesc.Quality = 0;
 		sd.Windowed = TRUE;
@@ -50,15 +70,14 @@ namespace core
 			&m_Context
 		);
 
-		if (FAILED(res))
-		{
-			MessageBox(Window::GetWindowHandler(), "Error during swap chain creation", "Error", MB_OK);
+		if (FAILED(res)) {
+			MessageBox(Window::getWindowHandler(), "Error during swap chain creation", "Error", MB_OK);
 			exit(1);
 		}
 
 
-		InitRenderTargetView();
-		SetViewport(width, height);
+		initRenderTargetView();
+		setViewport(width, height);
 
 		float ClearColor[4] = { 0.0f, 0.125f, 0.6f, 1.0f };
 		m_Context->ClearRenderTargetView(m_RenderTargetView, ClearColor);
@@ -66,33 +85,7 @@ namespace core
 		m_SwapChain->Present(0, 0);
 	}
 
-	void RenderingAPI::InitRenderTargetView()
-	{
-		ID3D11Texture2D* backBuffer;
-		HRESULT res = m_SwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (LPVOID*)&backBuffer);
-
-		if (FAILED(res))
-		{
-			MessageBox(Window::GetWindowHandler(), "Error during render target view creation", "Error", MB_OK);
-			exit(1);
-		}
-
-		res = m_Device->CreateRenderTargetView(backBuffer, NULL, &m_RenderTargetView);
-
-		if (FAILED(res))
-		{
-			MessageBox(Window::GetWindowHandler(), "Error during render target view creation", "Error", MB_OK);
-			exit(1);
-		}
-
-		backBuffer->Release();
-
-		m_Context->OMSetRenderTargets(1, &m_RenderTargetView, NULL);
-
-	}
-
-	void RenderingAPI::SetViewport(int width, int height)
-	{
+	void RenderingAPI::setViewport(int width, int height) {
 		D3D11_VIEWPORT vp;
 		vp.Width = (FLOAT)width;
 		vp.Height = (FLOAT)height;
@@ -103,8 +96,7 @@ namespace core
 		m_Context->RSSetViewports(1, &vp);
 	}
 
-	void RenderingAPI::SetPrimitiveTopology(Topology t)
-	{
+	void RenderingAPI::setPrimitiveTopology(Topology t) {
 		m_Context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY(t));
 	}
 }

@@ -3,14 +3,13 @@
 #include "graphic/graphic.h"
 #include <string>
 
-class Game
-{
+class Game{
 protected:
 	std::string m_Name;
 public:
 	Game(std::string name);
 	~Game();
-	void Start();
-	void Run();
+	void start();
+	void run();
 };
 

@@ -2,11 +2,9 @@
 
 using namespace core;
 
-namespace graphic
-{
+namespace graphic {
 
-	VertexBuffer::VertexBuffer(UINT size, D3D11_USAGE usage, UINT access, UINT stride, void* data) : m_Stride(stride)
-	{
+	VertexBuffer::VertexBuffer(UINT size, D3D11_USAGE usage, UINT access, UINT stride, void* data) : m_Stride(stride) {
 		D3D11_BUFFER_DESC d;
 		d.ByteWidth = size;
 		d.Usage = usage;
@@ -16,39 +14,33 @@ namespace graphic
 		d.CPUAccessFlags = access;
 
 		HRESULT res;
-		if (data != nullptr)
-		{
+		if (data != nullptr) {
 			D3D11_SUBRESOURCE_DATA a;
 			a.pSysMem = data;
-			res = RenderingAPI::GetDevice()->CreateBuffer(&d, &a, &m_VertexBuffer);
-		}
-		else
-			res = RenderingAPI::GetDevice()->CreateBuffer(&d, NULL, &m_VertexBuffer);
+			res = RenderingAPI::getDevice()->CreateBuffer(&d, &a, &m_VertexBuffer);
+		} else
+			res = RenderingAPI::getDevice()->CreateBuffer(&d, NULL, &m_VertexBuffer);
 
 
-		if (FAILED(res))
-		{
-			Window::MessageBoxOk("Error", "Error during vertex buffer creation");
+		if (FAILED(res)) {
+			Window::messageBoxOk("Error", "Error during vertex buffer creation");
 			exit(1);
 		}
 
 	}
 
 
-	VertexBuffer::~VertexBuffer()
-	{
+	VertexBuffer::~VertexBuffer() {
 		m_VertexBuffer->Release();
 	}
 
-	void VertexBuffer::Bind()
-	{
+	void VertexBuffer::bind() {
 		UINT offset = 0;
-		RenderingAPI::GetContext()->IASetVertexBuffers(0, 1, &m_VertexBuffer, &m_Stride, &offset);
+		RenderingAPI::getContext()->IASetVertexBuffers(0, 1, &m_VertexBuffer, &m_Stride, &offset);
 	}
 
-	void VertexBuffer::Unmap()
-	{
-		RenderingAPI::GetContext()->Unmap(m_VertexBuffer, 0);
+	void VertexBuffer::unmap() {
+		RenderingAPI::getContext()->Unmap(m_VertexBuffer, 0);
 	}
 
 }

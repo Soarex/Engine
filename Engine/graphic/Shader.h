@@ -5,11 +5,9 @@
 #include <D3Dcompiler.h>
 #include "../core/core.h"
 
-namespace graphic
-{
+namespace graphic {
 
-	class Shader
-	{
+	class Shader {
 	private:
 		ID3DBlob*			 m_VertexShaderBlob;
 		ID3DBlob*			 m_PixelShaderBlob;
@@ -21,8 +19,8 @@ namespace graphic
 		Shader();
 		~Shader();
 
-		void SetLayout(D3D11_INPUT_ELEMENT_DESC layout[], UINT elementCount);
-		void Bind();
+		void setLayout(D3D11_INPUT_ELEMENT_DESC layout[], UINT elementCount);
+		void bind();
 	};
 
 }

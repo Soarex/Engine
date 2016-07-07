@@ -2,11 +2,9 @@
 #include "Texture.h"
 #include "..\math\math.h"
 
-namespace graphic
-{
+namespace graphic {
 
-	struct Sprite
-	{
+	struct Sprite {
 		math::float3	position;
 		math::float2	size;
 		math::float4	color;

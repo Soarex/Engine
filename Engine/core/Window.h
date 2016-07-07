@@ -3,11 +3,9 @@
 #include <string>
 #include "RenderingAPI.h"
 
-namespace core
-{
+namespace core{
 
-	class Window
-	{
+	class Window{
 	private:
 		static std::string		 m_WindowName;
 		static HWND				 m_WindowHandler;
@@ -19,13 +17,14 @@ namespace core
 		static int m_Width, m_Height;
 		static bool m_Closed;
 	public:
-		static void Init(std::string windowName, int width = 800, int height = 600);
-		static void Update();
-		static bool Closed();
-		static void MessageBoxOk(std::string name, std::string content);
-		static inline int GetWidth() { return m_Width; }
-		static inline int GetHeight() { return m_Height; }
-		static inline HWND GetWindowHandler() { return m_WindowHandler; }
+		static void init(std::string windowName, int width = 800, int height = 600);
+		static void update();
+		static bool closed();
+		static void messageBoxOk(std::string name, std::string content);
+		static inline int getWidth() { return m_Width; }
+		static inline int getHeight() { return m_Height; }
+		static inline HWND getWindowHandler() { return m_WindowHandler; }
+		static inline HINSTANCE getApplicationInstance() { return m_ApplicationInstance; }
 	};
 
 }

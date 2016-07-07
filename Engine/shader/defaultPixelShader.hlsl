@@ -1,13 +1,11 @@
-struct VSOutput
-{
+struct VSOutput {
 	float4 position	 : SV_POSITION;
 	float4 color	 : COLOR;
 	float2 uv		 : TEXCOORD;
 	int slot		 : SLOT;
 };
 
-SamplerState samAnisotropic 
-{ 
+SamplerState samAnisotropic { 
 	Filter = ANISOTROPIC;
 	MaxAnisotropy = 4;
 	AddressU = WRAP;
@@ -16,11 +14,9 @@ SamplerState samAnisotropic
 
 Texture2D textureBase[32];
 
-float4 main(VSOutput input) : SV_Target
-{
+float4 main(VSOutput input) : SV_Target {
 	float4 color;
-	switch (input.slot)
-	{
+	switch (input.slot) {
 	case  0: color = textureBase[ 0].Sample(samAnisotropic, input.uv); break;
 	case  1: color = textureBase[ 1].Sample(samAnisotropic, input.uv); break;
 	case  2: color = textureBase[ 2].Sample(samAnisotropic, input.uv); break;
